@@ -47,10 +47,10 @@ def get_cities_with_timezones():
         }
         extra_info_json = json.dumps(extra_info)
 
-        language_en = f"{continent} - {country} ({city})"
-        name = translate_to_spanish(language_en)
-        language_en += f" (GMT {offset_string})"
-        name += f" (GMT {offset_string})"
+        suffix = f"{city}, {country} - {continent}" if continent != "Unknown" else f"{city}, {country}"
+        suffixTranslated = translate_to_spanish(suffix)
+        language_en = f"(GMT {offset_string}) {suffix}"
+        name = f"(GMT {offset_string}) {suffixTranslated}"
 
         city_info = {
             'name': name,
@@ -63,6 +63,7 @@ def get_cities_with_timezones():
             'offset': offset_hours
         }
         cities.append(city_info)
+        logging.info(f"Generated timezone info for {tz}")
 
     return cities
 
